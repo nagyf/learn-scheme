@@ -35,6 +35,23 @@
         ((f (car xs)) (cons (car xs) (filter f (cdr xs))))
         (else (filter f (cdr xs)))))
 
+; Execute the function f for every element in the list xs
+(define (for-each f xs)
+  (if (null? xs)
+      '()
+      (cons (f (car xs)) (for-each f (cdr xs)))))
+
+; Reverses a list
+(define (reverse xs)
+  (define (doReverse ys r)
+    (cond ((null? ys) r)
+          (else (doReverse (cdr ys) (cons (car ys) r)))))
+  (doReverse xs '()))
+
+(define (same-parity x . y)
+  (cond ((odd? x) (cons x (filter odd? y)))
+        (else (cons x (filter even? y)))))
+
 ;;;
 ;;; Testing the functions
 ;;;
@@ -44,3 +61,7 @@
 (reduce (lambda (x y) (* x y)) '(1 2 3 4 5) 1)
 (reducel (lambda (x y) (* x y)) '(1 2 3 4 5))
 (filter (lambda (x) (= 0 (remainder x 2))) (range 1 10))
+(reverse '(1 2 3 4 5))
+(same-parity 1 2 3 4 5 6 7 8 9 10)
+(same-parity 4 2 3 4 5 6 7 8 9 10)
+(for-each (lambda (x) (newline) (display x)) '(1 2 3 4 5))
